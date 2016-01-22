@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devInfo">
+    <sql id="queryColumn">
+          SELECT dev.id as id,
+                 dev.dev_no as devNo,
+                 dev.bar_code as barCode,
+                 dev.dev_name as devName,
+                 dev.cate_id as cateId,
+                 dev.model_no as modelNo,
+                 dev.standard as standard,
+                 dev.country_id as countryId,
+                 dev.price as price,
+                 dev.firm as firm,
+                 dev.out_firm_no as outFirmNo,
+                 dev.purchase_time as purchaseTime,
+                 dev.found_id as foundId,
+                 dev.origin_id as originId,
+                 dev.deposit_id as depositId,
+                 dev.dev_sum as devSum,
+                 dev.remark as remark,
+                 dev.create_time as createTime,
+                 dev.modify_time as modifyTime,
+                 dev.create_emp as createEmpId,
+                 dev.modify_emp as modifyEmpId,
+                 dev.direc_id as direcId,
+                 (SELECT real_name from tb_scd_user WHERE id=createEmpId) as createEmpName,
+                 (SELECT real_name from tb_scd_user WHERE id=modifyEmpId) as modifyEmpName,
+                 cate.cate_name as cateName,
+                 depo.dev_deposit_name as depositName,
+                 sub.found_sub_name as foundName,
+                 origin.dev_origin_name as originName,
+                 direc.use_direc_name as direcName,
+                 country.country_name as countryName
+    </sql>
+    <select id="queryDevInfo" resultType="devInfo">
+        <include refid="queryColumn"/>
+        from tb_scd_dev dev
+        left JOIN tb_scd_dev_category cate on dev.cate_id=cate.id
+        LEFT JOIN tb_scd_dev_deposit depo ON dev.deposit_id=depo.id
+        LEFT JOIN tb_scd_dev_found_sub sub on dev.found_id=sub.id
+        LEFT JOIN tb_scd_dev_origin origin on dev.origin_id=origin.id
+        LEFT JOIN tb_scd_dev_use_direc direc on dev.direc_id=direc.id
+        LEFT JOIN tb_scd_dev_country country on dev.country_id=country.id
+        where dev.is_valid=1
+            <if test="devNo!=null">
+              <if test="devNo!=''">
+               and  dev.dev_no=#{devNo}
+              </if>
+            </if>
+            <if test="devName!=null">
+                <if test="devName!=''">
+                    and   dev.dev_name=#{devName}
+                </if>
+            </if>
+            <if test="cateId!=0">
+                and   dev.cate_id=#{cateId}
+            </if>
+            <if test="countryId!=0">
+                and  dev.country_id=#{countryId}
+            </if>
+            <if test="originId!=0">
+                and dev.origin_id=#{originId}
+            </if>
+            <if test="depositId!=0">
+                and  dev.deposit_id=#{depositId}
+            </if>
+    </select>
+    <select id="queryDevInfoById" resultType="devInfo" parameterType="long">
+        <include refid="queryColumn"/>
+        from tb_scd_dev dev
+        left JOIN tb_scd_dev_category cate on dev.cate_id=cate.id
+        LEFT JOIN tb_scd_dev_deposit depo ON dev.deposit_id=depo.id
+        LEFT JOIN tb_scd_dev_found_sub sub on dev.found_id=sub.id
+        LEFT JOIN tb_scd_dev_origin origin on dev.origin_id=origin.id
+        LEFT JOIN tb_scd_dev_use_direc direc on dev.direc_id=direc.id
+        LEFT JOIN tb_scd_dev_country country on dev.country_id=country.id
+        where dev.is_valid=1 and dev.id=#{VALUE}
+    </select>
+    <update id="updateDevInfo" parameterType="devInfo">
+        update tb_scd_dev SET
+            <if test="devName!=null">
+                dev_name=#{devName},
+            </if>
+            <if test="barCode!=null">
+                bar_code=#{barCode},
+            </if>
+            <if test="modelNo!=null">
+                model_no=#{modelNo},
+            </if>
+            <if test="standard!=null">
+                standard=#{standard},
+            </if>
+            <if test="standard!=null">
+                standard=#{standard},
+            </if>
+            <if test="cateId!=0">
+                cate_id=#{cateId},
+            </if>
+            <if test="countryId!=0">
+                country_id=#{countryId},
+            </if>
+            <if test="originId!=0">
+                origin_id=#{originId},
+            </if>
+            <if test="direcId!=0">
+                direc_id=#{direcId},
+            </if>
+            <if test="depositId!=0">
+                deposit_id=#{depositId},
+            </if>
+            <if test="foundId!=0">
+                found_id=#{foundId},
+            </if>
+            <if test="firm!=null">
+                firm=#{firm},
+            </if>
+            <if test="outFirmNo!=null">
+                out_firm_no=#{outFirmNo},
+            </if>
+            <if test="remark!=null">
+                remark=#{remark},
+            </if>
+            modify_emp=#{modifyEmpId},
+            modify_time=now()
+        where id=#{id}
+    </update>
+    <insert id="createDevInfo" parameterType="devInfo">
+        INSERT INTO tb_scd_dev(
+                      dev_no,
+                      bar_code,
+                      dev_name,
+                      cate_id,
+                      model_no,
+                      standard,
+                      price,
+                      country_id,
+                      firm,
+                      out_firm_no,
+                      purchase_time,
+                      found_id,
+                      origin_id,
+                      deposit_id,
+                      dev_sum,
+                      remark,
+                      create_time,
+                      modify_time,
+                      create_emp,
+                      modify_emp,
+                      direc_id,
+                      dev_power
+                    )VALUES (
+                      #{devNo},
+                      #{barCode},
+                      #{devName},
+                      #{cateId},
+                      #{modelNo},
+                      #{standard},
+                      #{price},
+                      #{countryId},
+                      #{firm},
+                      #{outFirmNo},
+                      #{purchaseTime},
+                      #{foundId},
+                      #{originId},
+                      #{depositId},
+                      #{devSum},
+                      #{remark},
+                      now(),
+                      now(),
+                      #{createEmpId},
+                      #{modifyEmpId},
+                      #{direcId},
+                      #{devPower}
+                    )
+    </insert>
+</mapper>

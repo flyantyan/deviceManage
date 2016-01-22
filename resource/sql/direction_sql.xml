@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="direction">
+    <select id="queryDirectionList" resultType="direction">
+        SELECT id as id,
+        use_direc_no as direcNo,
+        use_direc_name as direcName,
+        create_time as createTime,
+        modify_time as modifyTime,
+        create_emp as createEmpId,
+        modify_emp as modifyEmpId,
+        (SELECT real_name from tb_scd_user WHERE id=createEmpId) as createEmpName,
+        (SELECT real_name from tb_scd_user WHERE id=modifyEmpId) as modifyEmpName
+        FROM tb_scd_dev_use_direc
+        WHERE is_valid=1
+    </select>
+    <select id="queryDirectionById" resultType="direction" parameterType="long">
+        select id as id,
+        use_direc_no as direcNo,
+        use_direc_name as direcName
+        from tb_scd_dev_use_direc
+        where is_valid=1 and id=#{value}
+    </select>
+    <update id="updateDirection" parameterType="direction">
+        update tb_scd_dev_use_direc
+        set use_direc_name=#{direcName},
+        modify_emp=#{modifyEmpId},
+        modify_time=now()
+        WHERE  id=#{id}
+    </update>
+    <update id="delDirection" parameterType="direction">
+        update tb_scd_dev_use_direc
+        set  modify_emp=#{modifyEmpId},
+        modify_time=now(),
+        is_valid=0
+        where id=#{id}
+    </update>
+    <insert id="insertDirection" parameterType="direction">
+        INSERT INTO tb_scd_dev_use_direc(
+                      use_direc_no,
+                      use_direc_name,
+                      create_emp,
+                      modify_emp,
+                      create_time,
+                      modify_time
+                     )VALUE(
+                      #{direcNo},
+                      #{direcName},
+                      #{createEmpId},
+                      #{modifyEmpId},
+                      now(),
+                      now()
+                     )
+    </insert>
+</mapper>

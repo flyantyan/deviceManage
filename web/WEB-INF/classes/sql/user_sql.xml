@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+    <select id="queryUserList" parameterType="user" resultType="user">
+          <include refid="queryColumn"/>
+          from tb_scd_user
+          WHERE is_valid=1
+                <if test="userName!=null">
+                  and  user_name=#{userName}
+                </if>
+                <if test="realName!=null">
+                    and  real_name=#{realName}
+                </if>
+                <if test="userRole!=null">
+                  <if test="userRole!=0">
+                    and  user_role=#{userRole}
+                  </if>
+                </if>
+    </select>
+    <select id="queryUserById" parameterType="long" resultType="user">
+            <include refid="queryColumn"/>
+            from tb_scd_user
+            where is_valid=1 and id=#{value}
+    </select>
+    <update id="updateUser" parameterType="user">
+            UPDATE tb_scd_user SET
+                  <if test="userPwd!=null">
+                      user_pwd=#{userPwd},
+                  </if>
+                  <if test="realName!=null">
+                      real_name=#{realName},
+                  </if>
+                  <if test="userRole!=null">
+                      user_role=#{userRole},
+                  </if>
+                  <if test="userTel!=null">
+                      user_tel=#{userTel},
+                  </if>
+                  <if test="userPower!=null">
+                      user_menu=#{userMenu},
+                  </if>
+                  <if test="modifyEmpId!=null">
+                      modify_emp=#{modifyEmpId},
+                  </if>
+                  <if test="remark!=null">
+                      remark=#{remark},
+                  </if>
+                  modify_time=now()
+            WHERE id=#{id}
+    </update>
+    <update id="delUser" parameterType="user">
+            UPDATE tb_scd_user SET
+                  is_valid=0,
+                  modify_emp=#{modifyEmpId},
+                  modify_time=now()
+            where id=#{id}
+    </update>
+    <insert id="insertUser" parameterType="user">
+            INSERT INTO tb_scd_user(
+                  user_name,
+                  user_pwd,
+                  real_name,
+                  user_sex,
+                  user_role,
+                  user_tel,
+                  user_menu,
+                  create_time,
+                  modify_time,
+                  create_emp,
+                  modify_emp,
+                  remark
+            )VALUE (
+                  #{userName},
+                  #{userPwd},
+                  #{realName},
+                  #{userSex},
+                  #{userRole},
+                  #{userTel},
+                  #{userMenu},
+                  now(),
+                  now(),
+                  #{createEmpId},
+                  #{modifyEmpId},
+                  #{remark}
+            )
+    </insert>
+    <sql id="queryColumn">
+        select id as id,
+               user_name as userName,
+               user_pwd as userPwd,
+               real_name as realName,
+               user_sex as userSex,
+               user_role as userRole,
+               user_tel as userTel,
+               user_menu as userMenu,
+               create_time as createTime,
+               modify_time as modifyTime,
+               create_emp as createEmpId,
+               modify_emp as modifyEmpId,
+               remark as remark,
+               (SELECT real_name from tb_scd_user WHERE id=createEmpId) as createEmpName,
+               (SELECT real_name from tb_scd_user WHERE id=modifyEmpId) as modifyEmpName
+    </sql>
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="apply">
+    <select id="queryApplyList" parameterType="Apply" resultType="apply">
+        <include refid="queryApplyColumn"/>
+        from tb_scd_apply
+        where 1=1
+        <if test="applyNo!=null">
+            <if test="applyNo!=''">
+                and apply_no=#{applyNo}
+            </if>
+        </if>
+        <if test="applyEmpName!=null">
+            <if test="applyEmpName!=''">
+                and apply_emp=(SELECT id from tb_scd_user where real_name=#{applyEmpName})
+            </if>
+        </if>
+        <if test="applyEmpId!=0">
+            and  apply_emp=#{applyEmpId}
+        </if>
+        <if test="status!=0">
+                and status=#{status}
+        </if>
+        <if test="dealEmpId!=0">
+            and deal_emp=#{dealEmpId}
+        </if>
+        <if test="applyTime!=null">
+            <![CDATA[<apply_time=<#{applyTime}]]>
+        </if>
+    </select>
+    <update id="updateApply" parameterType="apply">
+          UPDATE tb_scd_apply SET
+            <if test="status!=null">
+                status=#{status}
+            </if>
+            <if test="dealEmpId!=null">
+                deal_emp=#{dealEmpId}
+            </if>
+            <if test="backTime!=null">
+                back_time=#{backTime}
+            </if>
+            <if test="dealTime!=null">
+                deal_time=#{dealTime}
+            </if>
+            <if test="remark!=null">
+                remark=#{remark}
+            </if>
+            <if test="dealText!=null">
+                deal_text=#{dealText}
+            </if>
+            <if test="applyText!=null">
+                apply_text=#{applyText}
+            </if>
+            <if test="modifyEmpId!=null">
+                modify_emp=#{modifyEmp}
+            </if>
+            modify_time=now()
+            WHERE id=#{id}
+    </update>
+    <insert id="insetApply" parameterType="apply">
+            INSERT INTO tb_scd_apply(
+                apply_no,
+                apply_emp,
+                status,
+                deal_emp,
+                remark,
+                apply_time,
+                deal_time,
+                back_time,
+                create_time,
+                modify_time,
+                create_emp,
+                modify_emp,
+                deal_text,
+                apply_text
+            )VALUES (
+                #{applyNo},
+                #{applyEmpId},
+                #{status},
+                #{dealEmpId},
+                #{remark},
+                #{applyTime},
+                #{dealTime},
+                #{backTime},
+                now(),
+                now(),
+                #{createEmpId},
+                #{modifyEmpId},
+                #{dealText},
+                #{applyText}
+            )
+    </insert>
+    <select id="queryApplyById" parameterType="long" resultType="apply">
+        <include refid="queryApplyColumn"/>
+        from tb_scd_apply
+        WHERE id=#{value} and is_valid=1
+    </select>
+    <sql id="queryApplyColumn">
+        SELECT id as id,
+              apply_no as applyNo,
+              apply_emp as applyEmpId,
+              status as status,
+              deal_emp as dealEmpId,
+              remark as remark,
+              apply_time as applyTime,
+              deal_time as dealTime,
+              create_time as createTime,
+              modify_time as modifyTime,
+              create_emp as createEmpId,
+              modify_emp as modifyEmpId,
+              deal_text as dealText,
+              apply_text as applyText,
+              (SELECT real_name from tb_scd_user WHERE id=createEmpId) as createEmpName,
+              (SELECT real_name from tb_scd_user WHERE id=modifyEmpId) as modifyEmpName,
+              (SELECT real_name from tb_scd_user WHERE id=applyEmpId) as applyEmpName,
+              (SELECT real_name from tb_scd_user WHERE id=dealEmpId) as dealEmpName
+    </sql>
+    <update id="delApply" parameterType="apply">
+              UPDATE tb_scd_order set
+                      is_valid=0,
+                      modify_time=now(),
+                      modify_emp=modifyEmpId
+               where id=#{id}
+    </update>
+    <select id="queryLendNumByDevId" parameterType="long" resultType="int">
+        SELECT  sum(item.dev_num)
+        from tb_scd_apply_item item
+        LEFT  JOIN tb_scd_apply apply ON apply.id=item.apply_id
+        where item.dev_id=#{value}
+              and apply.status in (2,3)
+    </select>
+</mapper>

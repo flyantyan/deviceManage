@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dump">
+    <sql id="queryColumn">
+        SELECT dump.id as id,
+        dump.dump_no as dumpNo,
+        dump.dev_id as devId,
+        dump.dump_num as dumpNum,
+        dump.dump_reason as dumpReason,
+        dump.dump_time as dumpTime,
+        dump.dump_emp as dumpEmp,
+        dump.remark as remark,
+        dump.create_time as createTime,
+        dump.modify_time as modifyTime,
+        dump.create_emp as createEmpId,
+        dump.modify_emp as modifyEmpId,
+        dev.dev_name as devName,
+        (SELECT real_name from tb_scd_user WHERE id=createEmpId) as createEmpName,
+        (SELECT real_name from tb_scd_user WHERE id=modifyEmpId) as modifyEmpName
+    </sql>
+    <select id="queryDumpList" parameterType="devDump" resultType="devDump">
+        <include refid="queryColumn"/>
+        from tb_scd_dump dump
+        LEFT JOIN tb_scd_dev dev  on dump.dev_id=dev.id
+        where 1=1
+        <if test="dumpNo!=null">
+            <if test="dumpNo!=''">
+                and  dump.dump_no=#{dumpNo}
+            </if>
+        </if>
+        <if test="dumpEmp!=null">
+            <if test="dumpEmp!=''">
+                and  dump.dump_emp=#{dumpEmp}
+            </if>
+        </if>
+    </select>
+    <select id="queryDumpNumByDevId" parameterType="long" resultType="int">
+        SELECT sum(dump_num)
+        FROM tb_scd_dump
+        where dev_id=#{value}
+    </select>
+    <select id="queryDumpById" parameterType="long" resultType="devDump">
+        <include refid="queryColumn"/>
+        from tb_scd_dump dump
+        LEFT JOIN tb_scd_dev dev  on dump.dev_id=dev.id
+        WHERE dump.id=#{value}
+    </select>
+    <insert id="insertDump" parameterType="devDump">
+        INSERT  INTO tb_scd_dump(
+                        dev_id,
+                        dump_no,
+                        dump_num,
+                        dump_reason,
+                        dump_time,
+                        deump_emp,
+                        create_emp,
+                        modify_emp,
+                        remark,
+                        create_time,
+                        modify_time
+                      )VALUE(
+                        #{devId},
+                        #{dumpNo},
+                        #{dumpNum},
+                        #{dumpReason},
+                        #{dumpTime},
+                        #{dumpEmp},
+                        #{createEmpId},
+                        #{modifyEmpId},
+                        #{remark},
+                        now(),
+                        now()
+                      )
+    </insert>
+</mapper>

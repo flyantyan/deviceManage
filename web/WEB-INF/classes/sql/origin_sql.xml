@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="origin">
+    <select id="queryOriginList" resultType="origin">
+        SELECT id as id,
+               dev_origin_no as originNo,
+               dev_origin_name as originName,
+               create_time as createTime,
+               modify_time as modifyTime,
+               create_emp as createEmpId,
+               modify_emp as modifyEmpId,
+               (SELECT real_name from tb_scd_user WHERE id=createEmpId) as createEmpName,
+               (SELECT real_name from tb_scd_user WHERE id=modifyEmpId) as modifyEmpName
+        FROM tb_scd_dev_origin
+        WHERE is_valid=1
+    </select>
+    <select id="queryOriginById" resultType="origin" parameterType="long">
+        select id as id,
+               dev_origin_no as originNo,
+               dev_origin_name as originName
+        from tb_scd_dev_origin
+        where is_valid=1 and id=#{value}
+    </select>
+    <update id="updateOrigin" parameterType="origin">
+        update tb_scd_dev_origin
+        set dev_origin_name=#{originName},
+            modify_emp=#{modifyEmpId},
+            modify_time=now()
+        WHERE  id=#{id}
+    </update>
+    <update id="delOrigin" parameterType="origin">
+        update tb_scd_dev_origin
+        set  modify_emp=#{modifyEmpId},
+             modify_time=now(),
+             is_valid=0
+        where id=#{id}
+    </update>
+    <insert id="insertOrigin" parameterType="origin">
+        INSERT into tb_scd_dev_origin(
+                    dev_origin_no,
+                    dev_origin_name,
+                    create_time,
+                    modify_time,
+                    create_emp,
+                    modify_emp
+                    )VALUE(
+                    #{originNo},
+                    #{originName},
+                    now(),
+                    now(),
+                    #{createEmpId},
+                    #{modifyEmpId}
+                    )
+    </insert>
+</mapper>

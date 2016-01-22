@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="applyItem">
+    <select id="queryApplyItemList" parameterType="applyItem" resultType="applyItem">
+        <include refid="queryColumn"/>
+        from tb_scd_apply_item
+        where is_valid=1
+            <if test="itemNo!=null">
+                item_no=#{itemNo}
+            </if>
+            <if test="devId!=null">
+                dev_id=#{devId}
+            </if>
+            <if test="direcId!=null">
+                direc_id=#{direcId}
+            </if>
+            <if test="devLab!=null">
+                dev_lab=#{devLab}
+            </if>
+            <if test="applyId!=null">
+                apply_id=#{applyId}
+            </if>
+    </select>
+    <sql id="queryColumn">
+        select id as id,
+               item_no as itemNo,
+               dev_id as devId,
+               dev_unit as devUnit,
+               dev_num as devNum,
+               use_time as useTime,
+               direc_id as direcId,
+               dev_lab as devLab,
+               remark as remark,
+               create_time as createTime,
+               modify_time as modifyTime,
+               create_emp as createEmpId,
+               modify_time as mofifyEmpId,
+               apply_id as applyId
+    </sql>
+    <select id="queryApplyItemById" parameterType="long" resultType="applyItem">
+        <include refid="queryColumn"/>
+        from tb_scd_apply_item
+        where id=#{value} and is_valid=1
+    </select>
+    <insert id="insertApplyItem" parameterType="applyItem">
+        INSERT INTO tb_scd_apply_item(
+                        item_no,
+                        dev_id,
+                        dev_unit,
+                        dev_num,
+                        use_time,
+                        direc_id,
+                        dev_lab,
+                        remark,
+                        create_time,
+                        modify_time,
+                        create_emp,
+                        modify_emp,
+                        apply_id
+                        )VALUE (
+                        #{itemNo},
+                        #{devID},
+                        #{devUnit},
+                        #{devNum},
+                        #{useTime},
+                        #{direcId},
+                        #{devLab},
+                        #{remark},
+                        now(),
+                        now(),
+                        #{createEmpId},
+                        #{modifyEmpId},
+                        #{applyId}
+                        )
+    </insert>
+    <update id="updateApplyItem" parameterType="applyItem">
+        UPDATE tb_scd_apply_item SET
+                    <if test="devNum!=null">
+                        dev_num=#{devNum}
+                    </if>
+                    <if test="devUnit!=null">
+                        dev_unit=#{devUnit}
+                    </if>
+                    <if test="useTime!=null">
+                        use_time=#{useTime}
+                    </if>
+                    <if test="remark!=null">
+                        remark=#{remark}
+                    </if>
+                    <if test="direcId!=null">
+                        direc_id=#{direcId}
+                    </if>
+                    <if test="devLab!=null">
+                        dev_lab=#{devLab}
+                    </if>
+                    <if test="modifyEmpId!=null">
+                        modify_emp=#{modifyEmpId}
+                    </if>
+                    modify_time=now()
+                    where id=#{id}
+    </update>
+    <update id="delApplyItem" parameterType="applyItem">
+        UPDATE tb_scd_apply_itme SET
+                is_valid=0,
+                modify_emp=#{modifyEmpId},
+                modify_time=now()
+                WHERE id=#{id}
+    </update>
+</mapper>

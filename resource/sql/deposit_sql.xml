@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="deposit">
+    <select id="queryDepositList" resultType="deposit">
+        SELECT id as id,
+        dev_deposit_no as depositNo,
+        dev_deposit_name as depositName,
+        create_time as createTime,
+        modify_time as modifyTime,
+        create_emp as createEmpId,
+        modify_emp as modifyEmpId,
+        (SELECT real_name from tb_scd_user WHERE id=createEmpId) as createEmpName,
+        (SELECT real_name from tb_scd_user WHERE id=modifyEmpId) as modifyEmpName
+        FROM tb_scd_dev_deposit
+        WHERE is_valid=1
+    </select>
+    <select id="queryDepositById" resultType="deposit" parameterType="long">
+        select id as id,
+        dev_deposit_no as depositNo,
+        dev_deposit_name as depositName
+        from tb_scd_dev_deposit
+        where is_valid=1 and id=#{value}
+    </select>
+    <update id="updateDeposit" parameterType="deposit">
+        update tb_scd_dev_deposit
+        set dev_deposit_name=#{depositName},
+        modify_emp=#{modifyEmpId},
+        modify_time=now()
+        WHERE  id=#{id}
+    </update>
+    <update id="delDeposit" parameterType="deposit">
+        update tb_scd_dev_deposit
+        set  modify_emp=#{modifyEmpId},
+        modify_time=now(),
+        is_valid=0
+        where id=#{id}
+    </update>
+    <insert id="insertDeposit" parameterType="deposit">
+        INSERT INTO tb_scd_dev_deposit(
+                     dev_deposit_no,
+                     dev_deposit_name,
+                     create_emp,
+                     modify_emp,
+                     create_time,
+                     modify_time
+                    )VALUE(
+                     #{depositNo},
+                     #{depositName},
+                     #{createEmpId},
+                     #{modifyEmpId},
+                     now(),
+                     now()
+                    )
+    </insert>
+</mapper>

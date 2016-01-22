@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="menu">
+    <select id="queryMenuListByIds" parameterType="string" resultType="menu">
+       SELECT id as menuId,
+              menu_name as menuName,
+              menu_url as menuUrl,
+              parent_id as parentId
+       FROM tb_scd_menu
+       WHERE id in(${value}) and is_valid=1
+    </select>
+    <select id="queryMenuList" resultType="menu">
+        SELECT id as menuId,
+        menu_name as menuName,
+        menu_url as menuUrl,
+        parent_id as parentId
+        FROM tb_scd_menu
+        WHERE is_valid=1
+    </select>
+</mapper>

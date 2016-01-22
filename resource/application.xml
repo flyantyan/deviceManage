@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+    <context:component-scan base-package="com.nuc.device"/>
+    <context:annotation-config/>
+    <context:property-placeholder location="classpath:db.properties"/>
+    <bean id="dataSource"
+          class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${master.driverClassName}"/>
+        <property name="url" value="${master.url}"/>
+        <property name="username" value="${master.userName}"/>
+        <property name="password" value="${master.password}"/>
+        <property name="initialSize" value="${master.druid.initialSize}"/>
+        <property name="maxActive" value="${master.druid.maxActive}"/>
+        <property name="minIdle" value="${master.druid.minIdle}"/>
+        <property name="maxWait" value="${master.druid.maxWait}"/>
+        <property name="removeAbandoned" value="${master.druid.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${master.druid.removeAbandonedTimeout}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="${master.druid.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${master.druid.minEvictableIdleTimeMillis}"/>
+        <property name="validationQuery" value="${master.druid.validationQuery}"/>
+        <property name="testWhileIdle" value="${master.druid.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${master.druid.testOnBorrow}"/>
+        <property name="testOnReturn" value="${master.druid.testOnReturn}"/>
+        <property name="filters" value="${master.druid.filters}"/>
+    </bean>
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager"/>
+    <aop:config>
+        <aop:aspect ref="sqlSessionAspect">
+            <aop:pointcut id="pointcut" expression="execution(* com.nuc.device.dao.*.*(..))"/>
+            <aop:pointcut id="pointcut" expression="execution(* com.nuc.device.base.dao.*.*(..))"/>
+            <aop:after method="doAfter" pointcut-ref="pointcut"/>
+        </aop:aspect>
+    </aop:config>
+    <!--sqlSession自动关闭切面-->
+    <bean id="sqlSessionAspect" class="com.nuc.device.base.SqlSessionAspect"/>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath:sql/*.xml"/>
+        <property name="plugins">
+            <array>
+                <bean class="com.nuc.device.intercepter.PageInterceptor"/>
+            </array>
+        </property>
+        <property name="typeAliasesPackage" value="com.nuc.device.bean,com.nuc.device.base.bean"/>
+    </bean>
+</beans>

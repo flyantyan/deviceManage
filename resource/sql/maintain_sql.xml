@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="maintain">
+    <sql id="queryColumn">
+        SELECT maintain.id as id,
+        maintain.maintain_no as maintainNo,
+        maintain.dev_id as devId,
+        maintain.status as status,
+        maintain.maintain_num as maintainNum,
+        maintain.maintain_emp as maintainEmp,
+        maintain.remark as remark,
+        maintain.create_time as createTime,
+        maintain.modify_time as modifyTime,
+        maintain.create_emp as createEmpId,
+        maintain.modify_emp as modifyEmpId,
+        dev.dev_name as devName,
+        (SELECT real_name from tb_scd_user WHERE id=createEmpId) as createEmpName,
+        (SELECT real_name from tb_scd_user WHERE id=modifyEmpId) as modifyEmpName
+    </sql>
+    <select id="queryMaintainList" parameterType="devMaintain" resultType="devMaintain">
+        <include refid="queryColumn"/>
+        from tb_scd_maintain maintain
+        LEFT JOIN tb_scd_dev dev  on maintain.dev_id=dev.id
+        where 1=1
+        <if test="maintainNo!=null">
+            <if test="maintainNo!=''">
+              and  maintain.maintain_no=#{maintainNo}
+            </if>
+        </if>
+        <if test="maintainEmp!=null">
+            <if test="maintainEmp!=''">
+              and  maintain.maintain_emp=#{maintainEmp}
+            </if>
+        </if>
+    </select>
+    <select id="queryMaintainNumByDevId" resultType="int" parameterType="long">
+        SELECT sum(maintain_num)
+        FROM tb_scd_maintain
+        where dev_id=#{value} and status in (1,2)
+    </select>
+</mapper>
