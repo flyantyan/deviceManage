@@ -21,4 +21,5 @@ public interface UserService {
     public void delUser(User user);
     public void resetPwd(User user);
     public void updateUser(User user);
+    public void allotMenu(Long userId,String menuId);
 }

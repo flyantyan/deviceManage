@@ -91,6 +91,9 @@
             alert("请选择要操作的菜单");
             return;
           }
+        window.open(basePath+"user/toUserList.do?menuId="+menuId,
+                'newwindow', 'width=700,height=500, top=50, left=50,toolbar=no, menubar=no, scrollbars=yes, ' +
+                'resizable=yes, location=no, status=no,left=460px');
       }
       function delMenu(){
           var menuId=$("#menuId").val();

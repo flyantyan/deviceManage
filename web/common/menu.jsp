@@ -107,7 +107,7 @@
             </a>
             <ul class="children collapse" id="sub-item-3">
                 <li>
-                    <a class="" href="#">
+                    <a class="" href="<%=basePath%>system/deviceStatus.do">
                         <span class="glyphicon glyphicon-share-alt"></span> 设备现状
                     </a>
                 </li>

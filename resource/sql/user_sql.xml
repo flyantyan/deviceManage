@@ -36,7 +36,7 @@
                   <if test="userTel!=null">
                       user_tel=#{userTel},
                   </if>
-                  <if test="userPower!=null">
+                  <if test="userMenu!=null">
                       user_menu=#{userMenu},
                   </if>
                   <if test="modifyEmpId!=null">

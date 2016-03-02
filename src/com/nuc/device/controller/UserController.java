@@ -139,4 +139,11 @@ public class UserController implements JspageConstant {
             e.printStackTrace();
         }
     }
+    @RequestMapping("toUserList.do")
+    public String toUserList(ModelMap modelMap,HttpServletRequest request){
+        List<User> list=userService.queryUserList(new User());
+        modelMap.put("userList",list);
+        modelMap.put("menuId",request.getParameter("menuId"));
+        return "userList01";
+    }
 }

@@ -3,12 +3,14 @@ package com.nuc.device.base.controller;
 import com.nuc.device.base.bean.*;
 import com.nuc.device.base.dao.*;
 import com.nuc.device.bean.User;
+import com.nuc.device.service.UserService;
 import com.nuc.device.util.BuildSerialNumber;
 import com.nuc.device.util.SystemParamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -36,6 +38,8 @@ public class SystemController implements JspageConstant{
     private FoundSubDao foundSubDao;
     @Autowired
     private CategoryDao categoryDao;
+    @Autowired
+    private UserService userService;
     /**
      * 删除设备来源
      * @param response
@@ -339,5 +343,20 @@ public class SystemController implements JspageConstant{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @RequestMapping("allotMenu.do")
+    public void allotMenu(HttpServletResponse response,HttpServletRequest request){
+        try{
+            Long userId=Long.valueOf(request.getParameter("userId"));
+            String menuId=request.getParameter("menuId");
+            userService.allotMenu(userId,menuId);
+            response.getWriter().write("1");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    @RequestMapping("deviceStatus.do")
+    public String deviceStatus(){
+        return "system/deviceStatus";
     }
 }

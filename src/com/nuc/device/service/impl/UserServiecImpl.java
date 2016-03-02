@@ -68,4 +68,19 @@ public class UserServiecImpl implements UserService {
     public void updateUser(User user) {
         userDao.updateUser(user);
     }
+
+    @Override
+    public void allotMenu(Long userId, String menuId) {
+        User user=userDao.queryUserById(userId);
+        String userMenu=user.getUserMenu();
+        String[] menus=userMenu.split(",");
+        for (String menu:menus){
+            if(menu.equals(menuId)){
+                return;
+            }
+        }
+        userMenu=userMenu+","+menuId;
+        user.setUserMenu(userMenu);
+        userDao.updateUser(user);
+    }
 }
