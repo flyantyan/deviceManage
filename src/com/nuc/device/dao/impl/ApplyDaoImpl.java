@@ -25,8 +25,8 @@ public class ApplyDaoImpl extends BaseDao implements ApplyDao{
     }
 
     @Override
-    public void insertApply(Apply apply) {
-
+    public Apply insertApply(Apply apply) {
+        return null;
     }
 
     @Override
@@ -48,6 +48,11 @@ public class ApplyDaoImpl extends BaseDao implements ApplyDao{
     public int queryLendNumByDevId(Long id) {
         Object value=getSession().selectOne("apply.queryLendNumByDevId",id);
         return value==null?0:(Integer)value;
+    }
+
+    @Override
+    public int queryLendNum() {
+        return getSession().selectOne("apply.queryLendNum");
     }
 
 }

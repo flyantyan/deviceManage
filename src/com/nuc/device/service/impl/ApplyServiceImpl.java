@@ -1,7 +1,9 @@
 package com.nuc.device.service.impl;
 
 import com.nuc.device.bean.Apply;
+import com.nuc.device.bean.ApplyItem;
 import com.nuc.device.dao.ApplyDao;
+import com.nuc.device.dao.ApplyItemDao;
 import com.nuc.device.service.ApplyService;
 import com.nuc.device.util.BuildSerialNumber;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import java.util.List;
 public class ApplyServiceImpl implements ApplyService {
     @Autowired
     private ApplyDao applyDao;
+    @Autowired
+    private ApplyItemDao applyItemDao;
     @Override
     public List<Apply> queryApplyList(Apply apply) {
         return applyDao.queryApplyList(apply);
@@ -33,9 +37,15 @@ public class ApplyServiceImpl implements ApplyService {
 
     @Override
     @Transactional
-    public void createApply(Apply apply) {
-        apply.setApplyNo(BuildSerialNumber.getSimpleNo(20));
-        applyDao.insertApply(apply);
+    public void createApply(Apply apply,List<ApplyItem> list) {
+        apply.setApplyNo("AP"+BuildSerialNumber.getSimpleNo(18));
+        apply.setStatus(1);
+        Apply applyDb=applyDao.insertApply(apply);
+        for (ApplyItem applyItem : list){
+            applyItem.setApplyId(applyDb.getId());
+            applyItem.setItemNo("AI"+BuildSerialNumber.getSimpleNo(18));
+            applyItemDao.insetApplyItem(applyItem);
+        }
     }
 
     @Override

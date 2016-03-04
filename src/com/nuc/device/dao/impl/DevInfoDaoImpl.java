@@ -40,4 +40,9 @@ public class DevInfoDaoImpl extends BaseDao implements DevInfoDao{
     public void createDevInfo(DevInfo devInfo) {
         getSession().insert("devInfo.createDevInfo",devInfo);
     }
+
+    @Override
+    public int queryDevInfoCount() {
+        return getSession().selectOne("devInfo.queryDevInfoCount");
+    }
 }

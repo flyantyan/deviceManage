@@ -17,4 +17,5 @@ public interface DevInfoDao {
     public void updateDevInfo(DevInfo devInfo);
     public void delDevInfo(DevInfo devInfo);
     public void createDevInfo(DevInfo devInfo);
+    public int queryDevInfoCount();
 }

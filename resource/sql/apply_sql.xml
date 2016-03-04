@@ -129,4 +129,7 @@
         where item.dev_id=#{value}
               and apply.status in (2,3)
     </select>
+    <select id="queryLendNum" resultType="int">
+        select sum(dev_num) from tb_scd_apply_item
+    </select>
 </mapper>

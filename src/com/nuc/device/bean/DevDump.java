@@ -19,7 +19,7 @@ public class DevDump extends BaseBean {
     private long devId;//报废设备id
     private String devName;//设备名称
     private int dumpNum;//报废数量
-    private int dumpReason;//报废原因id
+    private Integer dumpReason;//报废原因id
     private String dumpReasonDesc;//报废原因
     @JSONField(format = "yyyy-MM-dd HH:mm")
     private Date dumpTime;//报废时间
@@ -50,11 +50,11 @@ public class DevDump extends BaseBean {
         this.dumpNum = dumpNum;
     }
 
-    public int getDumpReason() {
+    public Integer getDumpReason() {
         return dumpReason;
     }
 
-    public void setDumpReason(int dumpReason) {
+    public void setDumpReason(Integer dumpReason) {
         switch (dumpReason){
             case 1:this.setDumpReasonDesc(DUMP_DAMAGE);
                 break;

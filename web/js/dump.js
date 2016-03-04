@@ -70,3 +70,29 @@ function findDevInfo(){
         }
     })
 }
+function saveDevDump(){
+    var basePath=$("#basePath").val();
+    var devId=$("#devId").val();
+    var dumpNum=$("#dumpNum").val();
+    var dumpEmp=$("#dumpEmp").val();
+    var remark=$("#remark").val();
+    $.ajax({
+        type:"POST",
+        url:basePath+"dump/createDevDump.do",
+        data:{devId:devId,dumpNum:dumpNum,dumpEmp:dumpEmp,remark:remark},
+        async:false,
+        error:function(){
+            alert("系统内部错误，请稍后再试");
+        },
+        success:function(data){
+            if(data=="1"){
+                alert("设备报废信息保存成功!")
+                window.close();
+                queryDevInfoList();
+            }else{
+                alert("设备报废信息保存失败，请稍后再试!");
+                window.close();
+            }
+        }
+    })
+}

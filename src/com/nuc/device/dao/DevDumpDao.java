@@ -16,4 +16,5 @@ public interface DevDumpDao {
     public int queryDumpNumByDevId(Long id);
     public DevDump queryDumpById(Long id);
     public void insertDump(DevDump dump);
+    public int queryDumpNum();
 }

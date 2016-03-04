@@ -36,4 +36,9 @@ public class DevDumpDaoImpl extends BaseDao implements DevDumpDao {
     public void insertDump(DevDump dump) {
         getSession().insert("dump.insertDump",dump);
     }
+
+    @Override
+    public int queryDumpNum() {
+        return getSession().selectOne("dump.queryDumpNum");
+    }
 }

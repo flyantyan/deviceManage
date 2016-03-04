@@ -1,6 +1,7 @@
 package com.nuc.device.service;
 
 import com.nuc.device.bean.Apply;
+import com.nuc.device.bean.ApplyItem;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public interface ApplyService {
     public List<Apply> queryApplyList(Apply apply);
     public Apply queryApplyById(long id);
-    public void createApply(Apply apply);
+    public void createApply(Apply apply,List<ApplyItem> list);
     public void updateApply(Apply apply);
     public void delApply(long id);
 }

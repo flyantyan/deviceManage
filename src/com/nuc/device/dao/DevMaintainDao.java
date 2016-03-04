@@ -14,4 +14,8 @@ import java.util.List;
 public interface DevMaintainDao {
     public List<DevMaintain> queryMaintainList(DevMaintain maintain);
     public int queryMaintainNumByDevId(Long id);
+    public int queryMaintainNum();
+    public void createMaintain(DevMaintain maintain);
+    public void updateMaintainStatus(DevMaintain maintain);
+    public DevMaintain queryMaintainById(Long id);
 }

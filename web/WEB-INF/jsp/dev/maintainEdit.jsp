@@ -16,7 +16,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>实验室设备管理系统--设备报废编辑</title>
+  <title>实验室设备管理系统--设备维修编辑</title>
   <link href="<%=basePath%>css/bootstrap.min.css" rel="stylesheet">
   <link href="<%=basePath%>css/datepicker3.css" rel="stylesheet">
   <link href="<%=basePath%>css/styles.css" rel="stylesheet">
@@ -30,7 +30,7 @@
 <body>
   <jsp:include page="/common/topNonUserSymbal.jsp"/>
   <input type="hidden" id="basePath" value="<%=basePath%>">
-  <button type="submit" class="btn btn-primary" style="margin-left: 85%;" onclick="saveDevDump()">&nbsp;&nbsp;保存&nbsp;&nbsp;</button>
+  <button type="submit" class="btn btn-primary" style="margin-left: 85%;" onclick="saveDevMaintain()">&nbsp;&nbsp;保存&nbsp;&nbsp;</button>
   <button type="submit" class="btn btn-primary" onclick="window.close();">&nbsp;&nbsp;关闭&nbsp;&nbsp;</button>
   <input type="hidden" id="devId" name="devId">
   <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -85,16 +85,12 @@
       </div>
     </div>
     <div class="row">
-      <div class="breadcrumb">设备报废情况</div>
+      <div class="breadcrumb">设备维修情况</div>
       <div style="margin-left: 50px;">
-        <label>报废数量</label>
-        <input id="dumpNum" style="width: 200px;" >
-        <label style="margin-left: 183px;">报废负责人</label>
-        <input id="dumpEmp" style="width: 185px;"><br>
-      </div>
-      <div style="margin-left: 50px;">
-        <label>报废原因</label><br>
-        <textarea name="dumpReason" style="width: 600px; height: 100px;resize: none;"></textarea>
+        <label>维修数量</label>
+        <input id="maintainNum" style="width: 200px;" >
+        <label style="margin-left: 183px;">维修负责人</label>
+        <input id="maintainEmp" style="width: 185px;"><br>
       </div>
       <div style="margin-left: 50px;">
         <label>备注</label><br>
@@ -106,6 +102,6 @@
 <script src="<%=basePath%>js/bootstrap.min.js"></script>
 <script src="<%=basePath%>js/bootstrap-datepicker.js"></script>
 <script src="<%=basePath%>js/bootstrap-table.js"></script>
-<script src="<%=basePath%>js/dump.js"></script>
+<script src="<%=basePath%>js/maintain.js"></script>
 </body>
 </html>

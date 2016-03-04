@@ -13,4 +13,7 @@ import java.util.List;
  */
 public interface DevMaintainService {
     public List<DevMaintain> queryMaintainList(DevMaintain maintain);
+    public void createMaintain(DevMaintain maintain);
+    public void updateMaintainStatus(DevMaintain maintain);
+    public DevMaintain queryMaintainById(Long id);
 }

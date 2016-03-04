@@ -3,11 +3,13 @@ package com.nuc.device.base.controller;
 import com.nuc.device.base.bean.*;
 import com.nuc.device.base.dao.*;
 import com.nuc.device.bean.User;
+import com.nuc.device.service.DevInfoService;
 import com.nuc.device.service.UserService;
 import com.nuc.device.util.BuildSerialNumber;
 import com.nuc.device.util.SystemParamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +42,8 @@ public class SystemController implements JspageConstant{
     private CategoryDao categoryDao;
     @Autowired
     private UserService userService;
+    @Autowired
+    private DevInfoService devInfoService;
     /**
      * 删除设备来源
      * @param response
@@ -356,7 +360,8 @@ public class SystemController implements JspageConstant{
         }
     }
     @RequestMapping("deviceStatus.do")
-    public String deviceStatus(){
+    public String deviceStatus(ModelMap modelMap){
+        modelMap.put("devStatus",devInfoService.queryDeviceStatus());
         return "system/deviceStatus";
     }
 }

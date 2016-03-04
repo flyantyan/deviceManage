@@ -69,11 +69,11 @@
                     <div class="panel-heading">设备使用情况</div>
                     <div class="panel-body">
                         <div class="canvas-wrapper">
-                            设备总数量：100<br>
-                            设备库存量：20<br>
-                            设备借出量：30<br>
-                            设备维修量：30<br>
-                            设备报废量：20<br>
+                            设备总数量：${devStatus.devNum}<br>
+                            设备库存量：${devStatus.devNum-devStatus.applyNum-devStatus.maintainNum-devStatus.dumpNum}<br>
+                            设备借出量：${devStatus.applyNum}<br>
+                            设备维修量：${devStatus.maintainNum}<br>
+                            设备报废量：${devStatus.dumpNum}<br>
                         </div>
                     </div>
                 </div>
@@ -82,6 +82,10 @@
       </div>
     </div>
   </div>
+  <input type="hidden" id="applyNum" value="${devStatus.applyNum}">
+  <input type="hidden" id="maintainNum" value="${devStatus.maintainNum}">
+  <input type="hidden" id="dumpNum" value="${devStatus.dumpNum}">
+  <input type="hidden" id="residueNum" value="${devStatus.devNum-devStatus.applyNum-devStatus.maintainNum-devStatus.dumpNum}">
   <script src="<%=basePath%>js/jquery-1.11.1.min.js"></script>
   <script src="<%=basePath%>js/bootstrap.min.js"></script>
   <script src="<%=basePath%>js/chart.min.js"></script>

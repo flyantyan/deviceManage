@@ -32,7 +32,7 @@ public class DevDumpServiceImpl implements DevDumpService {
 
     @Override
     public void createDump(DevDump dump) {
-        dump.setDumpNo("DE"+ BuildSerialNumber.getSimpleNo(18));
+        dump.setDumpNo("DU"+ BuildSerialNumber.getSimpleNo(18));
         dumpDao.insertDump(dump);
     }
 }

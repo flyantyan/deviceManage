@@ -10,7 +10,9 @@ import com.nuc.device.util.BuildSerialNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IDEA
@@ -65,5 +67,15 @@ public class DevInfoServiceImpl implements DevInfoService {
             return null;
         }
         return list.get(0);
+    }
+
+    @Override
+    public Map<String, Integer> queryDeviceStatus() {
+        Map<String,Integer> map=new HashMap<String, Integer>();
+        map.put("devNum",devInfoDao.queryDevInfoCount());
+        map.put("applyNum",applyDao.queryLendNum());
+        map.put("maintainNum",maintainDao.queryMaintainNum());
+        map.put("dumpNum",dumpDao.queryDumpNum());
+        return map;
     }
 }

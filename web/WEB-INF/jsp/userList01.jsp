@@ -65,7 +65,7 @@
     </div>
   </div><!--/.row-->
 <!--/.main-->
-<input id="userId">
+<input type="hidden" id="userId">
 <script src="<%=basePath%>js/jquery-1.11.1.min.js"></script>
 <script src="<%=basePath%>js/bootstrap.min.js"></script>
 <script src="<%=basePath%>js/chart.min.js"></script>

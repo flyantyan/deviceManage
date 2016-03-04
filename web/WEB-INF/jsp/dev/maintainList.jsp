@@ -48,9 +48,10 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <input type="button" class="btn btn-default" value="新建" onclick=""/>
+          <input type="button" class="btn btn-default" value="新建" onclick="window.open('<%=basePath%>maintain/toMaintainEdit.do')"/>
           <input type="button" class="btn btn-default" value="详细信息" onclick=""/>
-          <input type="button" class="btn btn-default" value="修改" onclick=""/>
+          <input type="button" class="btn btn-default" value="允许维修" onclick=""/>
+          <input type="button" class="btn btn-default" value="维修完成" onclick=""/>
           <input type="button" class="btn btn-default" value="刷新" onclick="window.location.reload()"/>
         </div>
         <div class="panel-body">

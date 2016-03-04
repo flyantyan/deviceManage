@@ -3,6 +3,7 @@ package com.nuc.device.service;
 import com.nuc.device.bean.DevInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IDEA
@@ -17,4 +18,5 @@ public interface DevInfoService {
     public void updateDevInfo(DevInfo devInfo);
     public void createDevInfo(DevInfo devInfo);
     public DevInfo queryDevInfoByNo(String devNo);
+    public Map<String,Integer> queryDeviceStatus();
 }

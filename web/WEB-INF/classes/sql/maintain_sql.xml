@@ -38,4 +38,48 @@
         FROM tb_scd_maintain
         where dev_id=#{value} and status in (1,2)
     </select>
+    <select id="queryMaintainNum" resultType="int">
+        select sum(maintain_num) FROM tb_scd_maintain
+    </select>
+    <insert id="createMaintain" parameterType="devMaintain">
+        INSERT  INTO tb_scd_maintain
+                    (
+                      maintain_no,
+                      dev_id,
+                      maintain_num,
+                      maintain_emp,
+                      status,
+                      remark,
+                      create_time,
+                      modify_time,
+                      create_emp,
+                      modify_emp
+                    ) VALUE (
+                      #{maintainNo},
+                      #{devId},
+                      #{maintainNum},
+                      #{maintainEmp},
+                      #{status},
+                      #{remark},
+                      now(),
+                      now(),
+                      #{createEmpId},
+                      #{modifyEmpId}
+                    )
+    </insert>
+    <update id="updateMaintainStatus" parameterType="devMaintain">
+        UPDATE tb_scd_maintain
+        SET
+            status=#{status},
+            modify_emp=#{modifyEmpId},
+            modify_time=now()
+        where
+            id=#{id}
+    </update>
+    <select id="queryMaintainById" parameterType="long" resultType="devMaintain">
+        <include refid="queryColumn"/>
+        from tb_scd_maintain maintain
+        LEFT JOIN tb_scd_dev dev  on maintain.dev_id=dev.id
+        where maintain.id=#{value}
+    </select>
 </mapper>

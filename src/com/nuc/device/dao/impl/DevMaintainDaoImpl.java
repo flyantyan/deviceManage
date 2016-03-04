@@ -26,4 +26,24 @@ public class DevMaintainDaoImpl extends BaseDao implements DevMaintainDao {
         Object value=getSession().selectOne("maintain.queryMaintainNumByDevId",id);
         return value==null?0:(Integer)value;
     }
+
+    @Override
+    public int queryMaintainNum() {
+        return getSession().selectOne("maintain.queryMaintainNum");
+    }
+
+    @Override
+    public void createMaintain(DevMaintain maintain) {
+        getSession().insert("maintain.createMaintain",maintain);
+    }
+
+    @Override
+    public void updateMaintainStatus(DevMaintain maintain) {
+        getSession().update("maintain.updateMaintainStatus",maintain);
+    }
+
+    @Override
+    public DevMaintain queryMaintainById(Long id) {
+        return getSession().selectOne("maintain.queryMaintainById",id);
+    }
 }

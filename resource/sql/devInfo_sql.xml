@@ -174,4 +174,7 @@
                       #{devPower}
                     )
     </insert>
+    <select id="queryDevInfoCount" resultType="int">
+        SELECT sum(dev_sum) from tb_scd_dev
+    </select>
 </mapper>

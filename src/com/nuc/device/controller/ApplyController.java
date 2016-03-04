@@ -3,8 +3,8 @@ package com.nuc.device.controller;
 import com.alibaba.fastjson.JSON;
 import com.nuc.device.base.controller.JspageConstant;
 import com.nuc.device.bean.Apply;
+import com.nuc.device.bean.ApplyItem;
 import com.nuc.device.bean.User;
-import com.nuc.device.service.ApplyItemService;
 import com.nuc.device.service.ApplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,8 +30,6 @@ public class ApplyController implements JspageConstant{
     private final String myApplyList="dev/myApplyList";
     @Autowired
     private ApplyService applyService;
-    @Autowired
-    private ApplyItemService applyItemService;
     @RequestMapping("queryApplyList.do")
     public void queryApplyList(HttpServletResponse response,Apply apply){
         try {
@@ -53,5 +51,19 @@ public class ApplyController implements JspageConstant{
         apply.setApplyEmpId(empId);
         modelMap.put("applyList",applyService.queryApplyList(apply));
         return myApplyList;
+    }
+    public void createApply(HttpServletResponse response,HttpSession session,
+                            String applyJson,String appliItemListJson){
+        long empId=((User)session.getAttribute("user")).getId();
+        Apply apply=JSON.parseObject(applyJson,Apply.class);
+        apply.setApplyEmpId(empId);
+        apply.setModifyEmpId(empId);
+        apply.setCreateEmpId(empId);
+        List<ApplyItem> applyItemList=JSON.parseObject(appliItemListJson,List.class);
+        for(ApplyItem applyItem:applyItemList){
+            applyItem.setCreateEmpId(empId);
+            applyItem.setModifyEmpId(empId);
+        }
+
     }
 }

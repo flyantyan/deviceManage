@@ -52,7 +52,7 @@
                         dump_num,
                         dump_reason,
                         dump_time,
-                        deump_emp,
+                        dump_emp,
                         create_emp,
                         modify_emp,
                         remark,
@@ -72,4 +72,7 @@
                         now()
                       )
     </insert>
+    <select id="queryDumpNum" resultType="int">
+        select sum(dump_num) from tb_scd_dump
+    </select>
 </mapper>
