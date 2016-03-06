@@ -25,13 +25,14 @@ public class ApplyDaoImpl extends BaseDao implements ApplyDao{
     }
 
     @Override
-    public Apply insertApply(Apply apply) {
-        return null;
+    public Long insertApply(Apply apply) {
+        getSession().insert("apply.insetApply",apply);
+        return apply.getId();
     }
 
     @Override
-    public void upateApply(Apply apply) {
-
+    public void updateApply(Apply apply) {
+        getSession().update("apply.updateApply",apply);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class ApplyDaoImpl extends BaseDao implements ApplyDao{
 
     @Override
     public Apply queryApplyById(Long id) {
-        return null;
+        return getSession().selectOne("apply.queryApplyById",id);
     }
 
     @Override

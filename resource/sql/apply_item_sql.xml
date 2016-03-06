@@ -22,20 +22,19 @@
             </if>
     </select>
     <sql id="queryColumn">
-        select id as id,
-               item_no as itemNo,
-               dev_id as devId,
-               dev_unit as devUnit,
-               dev_num as devNum,
-               use_time as useTime,
-               direc_id as direcId,
-               dev_lab as devLab,
-               remark as remark,
-               create_time as createTime,
-               modify_time as modifyTime,
-               create_emp as createEmpId,
-               modify_time as mofifyEmpId,
-               apply_id as applyId
+        select item.id as id,
+               item.item_no as itemNo,
+               item.dev_id as devId,
+               item.dev_num as devNum,
+               item.apply_id as applyId,
+               dev.dev_no as devNo,
+               dev.dev_name as devName,
+               dev.model_no as modelNo,
+               dev.standard as standard,
+               cate.cate_name as cateName,
+               origin.dev_origin_name as originName,
+               direc.use_direc_name as direcName,
+               country.country_name as countryName
     </sql>
     <select id="queryApplyItemById" parameterType="long" resultType="applyItem">
         <include refid="queryColumn"/>
@@ -46,11 +45,7 @@
         INSERT INTO tb_scd_apply_item(
                         item_no,
                         dev_id,
-                        dev_unit,
                         dev_num,
-                        use_time,
-                        direc_id,
-                        dev_lab,
                         remark,
                         create_time,
                         modify_time,
@@ -59,12 +54,8 @@
                         apply_id
                         )VALUE (
                         #{itemNo},
-                        #{devID},
-                        #{devUnit},
+                        #{devId},
                         #{devNum},
-                        #{useTime},
-                        #{direcId},
-                        #{devLab},
                         #{remark},
                         now(),
                         now(),
@@ -100,10 +91,20 @@
                     where id=#{id}
     </update>
     <update id="delApplyItem" parameterType="applyItem">
-        UPDATE tb_scd_apply_itme SET
+        UPDATE tb_scd_apply_item SET
                 is_valid=0,
                 modify_emp=#{modifyEmpId},
                 modify_time=now()
                 WHERE id=#{id}
     </update>
+    <select id="queryApplyItemByApplyId" parameterType="long" resultType="applyItem">
+        <include refid="queryColumn"/>
+        from tb_scd_apply_item item
+        LEFT JOIN tb_scd_dev dev ON item.dev_id=dev.id
+        left JOIN tb_scd_dev_category cate on dev.cate_id=cate.id
+        LEFT JOIN tb_scd_dev_origin origin on dev.origin_id=origin.id
+        LEFT JOIN tb_scd_dev_use_direc direc on dev.direc_id=direc.id
+        LEFT JOIN tb_scd_dev_country country on dev.country_id=country.id
+        where item.apply_id=#{value}
+    </select>
 </mapper>

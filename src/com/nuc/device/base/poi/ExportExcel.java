@@ -1,16 +1,12 @@
 package com.nuc.device.base.poi;
 
-import com.alibaba.fastjson.JSON;
 import com.nuc.device.base.poi.bean.ExcelColumnBean;
 import com.nuc.device.base.poi.util.PoiCommonUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.hssf.util.HSSFColor;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
 import java.util.List;
 
 /**

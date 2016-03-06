@@ -28,7 +28,7 @@ public class DevInfo extends BaseBean {
     @ExcelColumnName("设备规格")
     private String standard;//设备规格
     @ExcelColumnName("设备单价")
-    private double price;//设备单价
+    private Double price;//设备单价
     private int countryId;//国家id
     @ExcelColumnName("设备国别")
     private String countryName;//国家名称
@@ -50,11 +50,9 @@ public class DevInfo extends BaseBean {
     @ExcelColumnName("设备存放地名称")
     private String depositName;//设备存放地名称
     @ExcelColumnName("设备数量")
-    private int devSum;//设备数量
+    private Integer devSum;//设备数量
     private String remark;//备注
     private int devPower;//设备权限
-    @ExcelColumnName("可以申请数量")
-    private int canApplySum;//可以申请数量
     private int direcId;
     @ExcelColumnName("使用方向")
     private String direcName;
@@ -117,11 +115,11 @@ public class DevInfo extends BaseBean {
         this.standard = standard;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -213,11 +211,11 @@ public class DevInfo extends BaseBean {
         this.depositName = depositName;
     }
 
-    public int getDevSum() {
+    public Integer getDevSum() {
         return devSum;
     }
 
-    public void setDevSum(int devSum) {
+    public void setDevSum(Integer devSum) {
         this.devSum = devSum;
     }
 
@@ -235,14 +233,6 @@ public class DevInfo extends BaseBean {
 
     public void setDevPower(int devPower) {
         this.devPower = devPower;
-    }
-
-    public int getCanApplySum() {
-        return canApplySum;
-    }
-
-    public void setCanApplySum(int canApplySum) {
-        this.canApplySum = canApplySum;
     }
 
     public int getDirecId() {

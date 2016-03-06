@@ -18,10 +18,10 @@
         <if test="applyEmpId!=0">
             and  apply_emp=#{applyEmpId}
         </if>
-        <if test="status!=0">
+        <if test="status!=null">
                 and status=#{status}
         </if>
-        <if test="dealEmpId!=0">
+        <if test="dealEmpId!=null">
             and deal_emp=#{dealEmpId}
         </if>
         <if test="applyTime!=null">
@@ -31,33 +31,39 @@
     <update id="updateApply" parameterType="apply">
           UPDATE tb_scd_apply SET
             <if test="status!=null">
-                status=#{status}
+                status=#{status},
             </if>
             <if test="dealEmpId!=null">
-                deal_emp=#{dealEmpId}
-            </if>
-            <if test="backTime!=null">
-                back_time=#{backTime}
+                deal_emp=#{dealEmpId},
             </if>
             <if test="dealTime!=null">
-                deal_time=#{dealTime}
+                deal_time=#{dealTime},
             </if>
             <if test="remark!=null">
-                remark=#{remark}
+                <if test="remark!=''">
+                  remark=#{remark},
+                </if>
             </if>
             <if test="dealText!=null">
-                deal_text=#{dealText}
+                <if test="remark!=''">
+                  deal_text=#{dealText},
+                </if>
             </if>
             <if test="applyText!=null">
-                apply_text=#{applyText}
+                <if test="remark!=''">
+                  apply_text=#{applyText},
+                </if>
             </if>
             <if test="modifyEmpId!=null">
-                modify_emp=#{modifyEmp}
+                modify_emp=#{modifyEmpId},
             </if>
             modify_time=now()
             WHERE id=#{id}
     </update>
     <insert id="insetApply" parameterType="apply">
+            <selectKey keyProperty="id" resultType="long">
+                select LAST_INSERT_ID()
+            </selectKey>
             INSERT INTO tb_scd_apply(
                 apply_no,
                 apply_emp,
@@ -66,7 +72,6 @@
                 remark,
                 apply_time,
                 deal_time,
-                back_time,
                 create_time,
                 modify_time,
                 create_emp,
@@ -79,9 +84,8 @@
                 #{status},
                 #{dealEmpId},
                 #{remark},
-                #{applyTime},
+                now(),
                 #{dealTime},
-                #{backTime},
                 now(),
                 now(),
                 #{createEmpId},

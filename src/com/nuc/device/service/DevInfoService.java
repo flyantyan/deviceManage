@@ -19,4 +19,5 @@ public interface DevInfoService {
     public void createDevInfo(DevInfo devInfo);
     public DevInfo queryDevInfoByNo(String devNo);
     public Map<String,Integer> queryDeviceStatus();
+    public void devInfoBatchImport(List<DevInfo> list,Long empId);
 }

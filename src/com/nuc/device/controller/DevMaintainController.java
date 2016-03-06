@@ -2,9 +2,13 @@ package com.nuc.device.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.nuc.device.base.controller.JspageConstant;
+import com.nuc.device.bean.DevInfo;
 import com.nuc.device.bean.DevMaintain;
 import com.nuc.device.bean.User;
+import com.nuc.device.service.DevInfoService;
 import com.nuc.device.service.DevMaintainService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,8 +29,11 @@ import java.util.List;
 @Controller
 @RequestMapping("maintain/")
 public class DevMaintainController implements JspageConstant {
+    private static final Logger logger= LoggerFactory.getLogger(DevInfoController.class);
     @Autowired
     private DevMaintainService maintainService;
+    @Autowired
+    private DevInfoService devInfoService;
     @RequestMapping("queryMaintainList.do")
     public void queryMaintainList(HttpServletResponse response,DevMaintain maintain){
         try {
@@ -66,9 +73,21 @@ public class DevMaintainController implements JspageConstant {
             e.printStackTrace();
         }
     }
-    @RequestMapping
-    public String queryMaintainById(ModelMap modelMap,Long id){
-        modelMap.put("maintain",maintainService.queryMaintainById(id));
+    @RequestMapping("queryMaintainById.do")
+    public String queryMaintainById(ModelMap modelMap,Long maintainId){
+        DevMaintain maintain=maintainService.queryMaintainById(maintainId);
+        DevInfo devInfo=devInfoService.queryDevInfoById(maintain.getDevId());
+        modelMap.put("maintain",maintain);
+        modelMap.put("devInfo",devInfo);
         return "dev/maintainDetail";
+    }
+    @RequestMapping("queryMaintainStatusById.do")
+    public void queryMaintainStatusById(HttpServletResponse response,Long maintainId){
+        try {
+            DevMaintain maintain=maintainService.queryMaintainById(maintainId);
+            response.getWriter().write(String.valueOf(maintain.getStatus()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -18,4 +18,5 @@ public interface ApplyService {
     public void createApply(Apply apply,List<ApplyItem> list);
     public void updateApply(Apply apply);
     public void delApply(long id);
+    public List<ApplyItem> queryApplyItemByApplyId(Long applyId);
 }

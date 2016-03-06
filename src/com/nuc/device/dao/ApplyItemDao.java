@@ -17,4 +17,5 @@ public interface ApplyItemDao {
     public void insetApplyItem(ApplyItem applyItem);
     public void updateApplyItem(ApplyItem applyItem);
     public void delApplyItem(ApplyItem applyItem);
+    public List<ApplyItem> queryApplyItemByApplyId(Long applyId);
 }

@@ -87,7 +87,7 @@
           <input type="button" class="btn btn-default" value="详细信息" onclick="devInfoDetail()"/>
           <input type="button" class="btn btn-default" value="修改" onclick="toDevInfoUpdate()"/>
           <input type="button" class="btn btn-default" value="设备入库" onclick="toDevInfoCreate()"/>
-          <input type="button" class="btn btn-default" value="批量导入"/>
+          <input type="button" class="btn btn-default" value="批量导入" onclick="toDevInfoImport()"/>
         </div>
         <div class="panel-body">
           <table id="devInfoTable" data-toggle="table" data-pagination="true">

@@ -28,7 +28,7 @@ public class ApplyItemDaoImpl extends BaseDao implements ApplyItemDao {
 
     @Override
     public void insetApplyItem(ApplyItem applyItem) {
-
+        getSession().insert("applyItem.insertApplyItem",applyItem);
     }
 
     @Override
@@ -39,5 +39,10 @@ public class ApplyItemDaoImpl extends BaseDao implements ApplyItemDao {
     @Override
     public void delApplyItem(ApplyItem applyItem) {
 
+    }
+
+    @Override
+    public List<ApplyItem> queryApplyItemByApplyId(Long applyId) {
+        return getSession().selectList("applyItem.queryApplyItemByApplyId",applyId);
     }
 }

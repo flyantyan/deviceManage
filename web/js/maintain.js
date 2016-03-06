@@ -21,6 +21,9 @@ function initMaintainList(obj){
     }
     $("#maintainTable").bootstrapTable('load',obj);
 }
+function radioClick(obj){
+    $("#maintainId").val(obj.value);
+}
 function findDevInfo(){
     var basePath=$("#basePath").val();
     var devNo=$("#devNo").val();
@@ -81,4 +84,109 @@ function saveDevMaintain(){
             }
         }
     })
+}
+function showDetail(){
+    var basePath=$("#basePath").val();
+    var maintainId=$("#maintainId").val();
+    if(maintainId==""){
+        alert("请选择要查看的行!");
+        return;
+    }
+    window.open(basePath+"maintain/queryMaintainById.do?maintainId="+maintainId,
+        'newwindow', 'width=710,height=600, top=50, left=50,toolbar=no, menubar=no, scrollbars=yes,' +
+        'resizable=yes, location=no, status=no,left=500px');
+}
+function updateToMaintain(){
+    var basePath=$("#basePath").val();
+    var maintainId=$("#maintainId").val();
+    var maintainStatus;
+    if(maintainId==""){
+        alert("请选择要修改的行!");
+        return;
+    }
+    $.ajax({
+        type:"POST",
+        url:basePath+"maintain/queryMaintainStatusById.do",
+        data:{maintainId:maintainId},
+        async:false,
+        error:function(){
+            alert("系统内部错误，请稍后再试");
+        },
+        success:function(data){
+            maintainStatus=data;
+        }
+    })
+    if(maintainStatus=="2"){
+        alert("设备正处于维修状态!");
+        return;
+    }else if(maintainStatus=="3"){
+        alert("设备已维修完成!");
+        return;
+    }else if(maintainStatus=="1"){
+        if(confirm("确认要将设备维修状态更新为维修中吗？")){
+            $.ajax({
+                type:"POST",
+                url:basePath+"maintain/updateMaintainStatus.do",
+                data:{id:maintainId,status:2},
+                async:false,
+                error:function(){
+                    alert("系统内部错误，请稍后再试");
+                },
+                success:function(data){
+                    if(data=="1"){
+                        alert("设备维修状态更新成功!")
+                    }else{
+                        alert("设备维修状态更新失败，请稍后再试!");
+                    }
+                }
+            })
+        }
+    }
+}
+function updateToMaintainFinish(){
+    var basePath=$("#basePath").val();
+    var maintainId=$("#maintainId").val();
+    var maintainStatus;
+    if(maintainId==""){
+        alert("请选择要修改的行!");
+        return;
+    }
+    $.ajax({
+        type:"POST",
+        url:basePath+"maintain/queryMaintainStatusById.do",
+        data:{maintainId:maintainId},
+        async:false,
+        error:function(){
+            alert("系统内部错误，请稍后再试");
+        },
+        success:function(data){
+            maintainStatus=data;
+        }
+    })
+    if(maintainStatus=="1"){
+        alert("设备正处于申请维修状态!");
+        return;
+    }else if(maintainStatus=="3"){
+        alert("设备已维修完成!");
+        return;
+    }else if(maintainStatus=="2"){
+        if(confirm("确认要将设备维修状态更新为维修完成吗？")){
+            $.ajax({
+                type:"POST",
+                url:basePath+"maintain/updateMaintainStatus.do",
+                data:{id:maintainId,status:3},
+                async:false,
+                error:function(){
+                    alert("系统内部错误，请稍后再试");
+                },
+                success:function(data){
+                    if(data=="1"){
+                        alert("设备维修状态更新成功!")
+                    }else{
+                        alert("设备维修状态更新失败，请稍后再试!");
+                    }
+                }
+            })
+        }
+    }
 }

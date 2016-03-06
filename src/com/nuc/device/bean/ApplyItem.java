@@ -13,14 +13,17 @@ import java.util.Date;
 public class ApplyItem extends BaseBean {
     private String itemNo;//申请项编号
     private long devId;//设备id
-    private String devUnit;//设备单位
     private int devNum;//设备数量
-    private Date useTime;//使用时间
-    private int direcId;//使用方向id
-    private String direcName;//使用方向名称
-    private String devLab;//实验室
     private String remark;//备注
     private long applyId;//申请id
+    private String devNo;
+    private String devName;
+    private String modelNo;
+    private String standard;
+    private String cateName;
+    private String originName;
+    private String direcName;
+    private String countryName;
 
     public String getItemNo() {
         return itemNo;
@@ -38,13 +41,6 @@ public class ApplyItem extends BaseBean {
         this.devId = devId;
     }
 
-    public String getDevUnit() {
-        return devUnit;
-    }
-
-    public void setDevUnit(String devUnit) {
-        this.devUnit = devUnit;
-    }
 
     public int getDevNum() {
         return devNum;
@@ -52,38 +48,6 @@ public class ApplyItem extends BaseBean {
 
     public void setDevNum(int devNum) {
         this.devNum = devNum;
-    }
-
-    public Date getUseTime() {
-        return useTime;
-    }
-
-    public void setUseTime(Date useTime) {
-        this.useTime = useTime;
-    }
-
-    public int getDirecId() {
-        return direcId;
-    }
-
-    public void setDirecId(int direcId) {
-        this.direcId = direcId;
-    }
-
-    public String getDirecName() {
-        return direcName;
-    }
-
-    public void setDirecName(String direcName) {
-        this.direcName = direcName;
-    }
-
-    public String getDevLab() {
-        return devLab;
-    }
-
-    public void setDevLab(String devLab) {
-        this.devLab = devLab;
     }
 
     public String getRemark() {
@@ -100,5 +64,69 @@ public class ApplyItem extends BaseBean {
 
     public void setApplyId(long applyId) {
         this.applyId = applyId;
+    }
+
+    public String getDevNo() {
+        return devNo;
+    }
+
+    public void setDevNo(String devNo) {
+        this.devNo = devNo;
+    }
+
+    public String getDevName() {
+        return devName;
+    }
+
+    public void setDevName(String devName) {
+        this.devName = devName;
+    }
+
+    public String getModelNo() {
+        return modelNo;
+    }
+
+    public void setModelNo(String modelNo) {
+        this.modelNo = modelNo;
+    }
+
+    public String getStandard() {
+        return standard;
+    }
+
+    public void setStandard(String standard) {
+        this.standard = standard;
+    }
+
+    public String getCateName() {
+        return cateName;
+    }
+
+    public void setCateName(String cateName) {
+        this.cateName = cateName;
+    }
+
+    public String getOriginName() {
+        return originName;
+    }
+
+    public void setOriginName(String originName) {
+        this.originName = originName;
+    }
+
+    public String getDirecName() {
+        return direcName;
+    }
+
+    public void setDirecName(String direcName) {
+        this.direcName = direcName;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 }

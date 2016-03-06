@@ -14,11 +14,6 @@
   <link href="<%=basePath%>css/datepicker3.css" rel="stylesheet">
   <link href="<%=basePath%>css/styles.css" rel="stylesheet">
   <link rel="shortcut icon" href="<%=basePath%>images/device.ico" />
-
-  <!--[if lt IE 9]>
-  <script src="<%=basePath%>js/html5shiv.js"></script>
-  <script src="<%=basePath%>js/respond.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <jsp:include page="/common/top.jsp"/>
@@ -40,7 +35,6 @@
         <label style="margin-left: 50px;">申请人</label>
         <input id="applyEmpName" placeholder="申请人" style="width: 200px;">
         <button onclick="queryApplyList()" class="btn btn-primary" style="margin-left: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;</button>
-        <button onclick="" class="btn btn-primary" style="margin-left: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;导出&nbsp;&nbsp;&nbsp;&nbsp;</button>
       </div>
     </div>
   </div><!--/.row-->
@@ -49,8 +43,10 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <input type="button" class="btn btn-default" value="详细信息" onclick="queryApplyDetail()"/>
-          <input type="button" class="btn btn-default" value="新建" onclick=""/>
-          <input type="button" class="btn btn-default" value="审核" onclick=""/>
+          <input type="button" class="btn btn-default" value="新建" onclick="window.open('<%=basePath%>apply/toApplyCreate.do')"/>
+          <input type="button" class="btn btn-default" value="审核" onclick="toApplyReview()"/>
+          <input type="button" class="btn btn-default" value="借出" onclick="lend()"/>
+          <input type="button" class="btn btn-default" value="归还" onclick="revert()"/>
         </div>
         <div class="panel-body">
           <table id="applyTable" data-toggle="table" data-pagination="true">
@@ -74,28 +70,8 @@
 <!--/.main-->
 <script src="<%=basePath%>js/jquery-1.11.1.min.js"></script>
 <script src="<%=basePath%>js/bootstrap.min.js"></script>
-<script src="<%=basePath%>js/chart.min.js"></script>
-<script src="<%=basePath%>js/chart-data.js"></script>
-<script src="<%=basePath%>js/easypiechart.js"></script>
-<script src="<%=basePath%>js/easypiechart-data.js"></script>
-<script src="<%=basePath%>js/bootstrap-datepicker.js"></script>
 <script src="<%=basePath%>js/bootstrap-table.js"></script>
 <script src="<%=basePath%>js/apply.js"></script>
-<script>
-  !function ($) {
-    $(document).on("click","ul.nav li.parent > a > span.icon", function(){
-      $(this).find('em:first').toggleClass("glyphicon-minus");
-    });
-    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
-  }(window.jQuery);
-
-  $(window).on('resize', function () {
-    if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
-  })
-  $(window).on('resize', function () {
-    if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
-  })
-</script>
 </body>
 
 </html>

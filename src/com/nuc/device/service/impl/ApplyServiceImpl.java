@@ -40,9 +40,9 @@ public class ApplyServiceImpl implements ApplyService {
     public void createApply(Apply apply,List<ApplyItem> list) {
         apply.setApplyNo("AP"+BuildSerialNumber.getSimpleNo(18));
         apply.setStatus(1);
-        Apply applyDb=applyDao.insertApply(apply);
+        Long applyId=applyDao.insertApply(apply);
         for (ApplyItem applyItem : list){
-            applyItem.setApplyId(applyDb.getId());
+            applyItem.setApplyId(applyId);
             applyItem.setItemNo("AI"+BuildSerialNumber.getSimpleNo(18));
             applyItemDao.insetApplyItem(applyItem);
         }
@@ -51,7 +51,7 @@ public class ApplyServiceImpl implements ApplyService {
     @Override
     @Transactional
     public void updateApply(Apply apply) {
-        applyDao.upateApply(apply);
+        applyDao.updateApply(apply);
     }
 
     @Override
@@ -59,5 +59,10 @@ public class ApplyServiceImpl implements ApplyService {
     public void delApply(long id) {
         Apply apply=new Apply();
         applyDao.delApply(apply);
+    }
+
+    @Override
+    public List<ApplyItem> queryApplyItemByApplyId(Long applyId) {
+        return applyItemDao.queryApplyItemByApplyId(applyId);
     }
 }

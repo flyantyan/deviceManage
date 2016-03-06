@@ -10,6 +10,9 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,36 +64,16 @@ public class PoiCommonUtils {
                 field.getName().substring(1);
     }
 
-    /**
-     * 校验导入的excel
-     * @param is
-     * @param beanClass
-     * @return
-     */
-    public static String checkExcel(InputStream is,Class beanClass){
-        String result="success";
-        if(is==null){
-            return "上传文件为空!";
+    public static Object parseType(Class type,String value){
+        if(type.equals(String.class)){
+            return value;
+        }else if(type.equals(Double.class)){
+            return Double.parseDouble(value);
+        }else if(type.equals(Integer.class)){
+            return Integer.parseInt(value);
+        }else if(type.equals(Date.class)){
+            return new Date(value);
         }
-        List<ExcelColumnBean> list=getColumnBeanList(beanClass);
-        try {
-            HSSFWorkbook workbook=new HSSFWorkbook(new POIFSFileSystem(is));
-            HSSFSheet sheet=workbook.getSheetAt(0);
-            if(sheet.getTopRow()<=1){
-                return "sheet中行数不足!";
-            }
-            if(list.size()!=sheet.getFirstRowNum()){
-                return "标题列数与要求不匹配!";
-            }
-            HSSFRow row=sheet.getRow(0);
-            for(int i=0;i<list.size();i++){
-                if(!row.getCell(i).getStringCellValue().equals(list.get(i).getColumnName())){
-                    return "sheet中列名与要求不匹配!";
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return  result;
+        return null;
     }
 }

@@ -2,6 +2,8 @@ package com.nuc.device.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.nuc.device.base.poi.ExportExcel;
+import com.nuc.device.base.poi.ImportExcel;
+import com.nuc.device.base.poi.util.PoiCommonUtils;
 import com.nuc.device.bean.DevInfo;
 import com.nuc.device.bean.User;
 import com.nuc.device.service.DevInfoService;
@@ -12,11 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -66,8 +69,22 @@ public class DevInfoController{
         }
     }
     @RequestMapping("importDevInfo.do")
-    public void importDevInfo(HttpServletResponse response,HttpServletRequest request){
-
+    public void importDevInfo(HttpServletResponse response,MultipartFile devInfoFile,
+                              HttpSession session){
+        try {
+            long empId=((User)session.getAttribute("user")).getId();
+            InputStream inputStream=devInfoFile.getInputStream();
+            ImportExcel<DevInfo> importExcel=new ImportExcel<DevInfo>(inputStream,DevInfo.class);
+            String checkRresult=importExcel.checkExcel();
+            if(checkRresult.equals("success")){
+                List<DevInfo> list=importExcel.excelToList();
+                devInfoService.devInfoBatchImport(list,empId);
+            }
+            response.setContentType("text/html; charset=gb2312");
+            response.getWriter().println("<script>parent.callBack('"+checkRresult+"');</script>");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @RequestMapping("toDevInfoUpdate.do")
     public String toDevInfoUpdate(ModelMap modelMap,Long devId){
@@ -112,5 +129,9 @@ public class DevInfoController{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @RequestMapping("toDevInfoImport.do")
+    public String toDevInfoImport(){
+        return "dev/devImport";
     }
 }

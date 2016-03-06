@@ -126,5 +126,10 @@ function createDevInfo(){
             }
         }
     })
-
+}
+function toDevInfoImport(){
+    var bathPath=$("#basePath").val();
+    window.open(bathPath+"devInfo/toDevInfoImport.do",
+        'newwindow', 'width=500,height=250, top=300, left=50,toolbar=no, menubar=no, scrollbars=yes,' +
+        'resizable=no, location=no, status=no,left=500px');
 }

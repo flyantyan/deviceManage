@@ -24,7 +24,7 @@
 <jsp:include page="/common/top.jsp"/>
 <jsp:include page="/common/menu.jsp"/>
 <input type="hidden" value="<%=basePath%>" id="basePath">
-<input type="hidden" id="applyId">
+<input type="hidden" id="maintainId">
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
   <div class="row">
     <ol class="breadcrumb">
@@ -49,9 +49,9 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <input type="button" class="btn btn-default" value="新建" onclick="window.open('<%=basePath%>maintain/toMaintainEdit.do')"/>
-          <input type="button" class="btn btn-default" value="详细信息" onclick=""/>
-          <input type="button" class="btn btn-default" value="允许维修" onclick=""/>
-          <input type="button" class="btn btn-default" value="维修完成" onclick=""/>
+          <input type="button" class="btn btn-default" value="详细信息" onclick="showDetail()"/>
+          <input type="button" class="btn btn-default" value="允许维修" onclick="updateToMaintain()"/>
+          <input type="button" class="btn btn-default" value="维修完成" onclick="updateToMaintainFinish()"/>
           <input type="button" class="btn btn-default" value="刷新" onclick="window.location.reload()"/>
         </div>
         <div class="panel-body">
@@ -77,28 +77,9 @@
 <!--/.main-->
 <script src="<%=basePath%>js/jquery-1.11.1.min.js"></script>
 <script src="<%=basePath%>js/bootstrap.min.js"></script>
-<script src="<%=basePath%>js/chart.min.js"></script>
-<script src="<%=basePath%>js/chart-data.js"></script>
-<script src="<%=basePath%>js/easypiechart.js"></script>
-<script src="<%=basePath%>js/easypiechart-data.js"></script>
 <script src="<%=basePath%>js/bootstrap-datepicker.js"></script>
 <script src="<%=basePath%>js/bootstrap-table.js"></script>
 <script src="<%=basePath%>js/maintain.js"></script>
-<script>
-  !function ($) {
-    $(document).on("click","ul.nav li.parent > a > span.icon", function(){
-      $(this).find('em:first').toggleClass("glyphicon-minus");
-    });
-    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
-  }(window.jQuery);
-
-  $(window).on('resize', function () {
-    if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
-  })
-  $(window).on('resize', function () {
-    if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
-  })
-</script>
 </body>
 
 </html>

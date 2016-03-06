@@ -19,27 +19,18 @@ public class Apply extends BaseBean {
     public static final String APPLY_LOAN="已借出";
     public static final String APPLY_BACK="已归还";
     public static final String APPLY_REFUSE="已拒绝";
-    @ExcelColumnName(value = "申请编号")
     private String applyNo;//申请编号
     private long applyEmpId;//申请人id
-    @ExcelColumnName(value = "申请人姓名")
     private String applyEmpName;//申请人姓名
-    @ExcelColumnName(value = "申请状态")
-    private int status;//申请状态
-    private long dealEmpId;//处理人id
-    @ExcelColumnName(value = "处理人姓名")
+    private Integer status;//申请状态
+    private Long dealEmpId;//处理人id
     private String dealEmpName;//处理人姓名
-    @ExcelColumnName(value = "备注")
     private String remark;//备注
     @JSONField(format = "yyyy-MM-dd HH:mm")
-    @ExcelColumnName(value = "申请时间")
     private Date applyTime;//申请时间
     @JSONField(format = "yyyy-MM-dd HH:mm")
-    @ExcelColumnName(value = "处理时间")
     private Date dealTime;//处理时间
-    @ExcelColumnName(value = "申请理由")
     private String applyText;//申请理由
-    @ExcelColumnName(value = "处理意见")
     private String dealText;//处理意见
     private String statusDesc;//申请状态描述
     public String getApplyNo() {
@@ -66,11 +57,11 @@ public class Apply extends BaseBean {
         this.applyEmpName = applyEmpName;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         switch (status){
             case 1:this.setStatusDesc(APPLY_ING);
                 break;
@@ -87,11 +78,11 @@ public class Apply extends BaseBean {
         this.status = status;
     }
 
-    public long getDealEmpId() {
+    public Long getDealEmpId() {
         return dealEmpId;
     }
 
-    public void setDealEmpId(long dealEmpId) {
+    public void setDealEmpId(Long dealEmpId) {
         this.dealEmpId = dealEmpId;
     }
 

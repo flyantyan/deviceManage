@@ -13,8 +13,8 @@ import java.util.List;
  */
 public interface ApplyDao {
     public List<Apply> queryApplyList(Apply apply);
-    public Apply insertApply(Apply apply);
-    public void upateApply(Apply apply);
+    public Long insertApply(Apply apply);
+    public void updateApply(Apply apply);
     public void delApply(Apply apply);
     public Apply queryApplyById(Long id);
     public int queryLendNumByDevId(Long id);

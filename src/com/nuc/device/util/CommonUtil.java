@@ -7,6 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -153,5 +155,11 @@ public class CommonUtil {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	public static Integer long2Integer(Long value){
+		if(value==null){
+			return null;
+		}
+		return Integer.parseInt(value.toString());
 	}
 }
